@@ -1,0 +1,6 @@
+
+namespace Volabit;
+
+class Client {
+
+}
