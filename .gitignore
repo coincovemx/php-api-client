@@ -1,0 +1,4 @@
+
+# Add paths and files to be ignored by Git in this file.
+
+/vendor/

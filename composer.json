@@ -1,0 +1,13 @@
+{
+    "name": "volabit/client",
+    "description": "Library for the Volabit API.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Volabit Team and Contributors",
+            "email": "hola@volabit.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {}
+}
