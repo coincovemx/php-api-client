@@ -9,5 +9,7 @@
         }
     ],
     "minimum-stability": "stable",
-    "require": {}
+    "require": {
+        "league/oauth2-client": "0.7.*"
+    }
 }
