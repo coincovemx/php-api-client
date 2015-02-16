@@ -71,29 +71,21 @@ class Core extends AbstractProvider {
               /////////////////////////////////////// Exchange rates //
 
   public function getTickers() {
-    return $this->resource('get', $this->urlTickers());
-  }
-
-  public function urlTickers() {
-    return $this->baseUrl().'api/v1/tickers/';
+    return $this->resource('get', 'api/v1/tickers');
   }
 
   public function getSpotPrices($amount, $from, $to) {
-    return $this->resource('get', $this->urlSpotPrices(), [
+    return $this->resource('get', 'api/v1/spot-prices/', [
       'amount' => $amount,
       'currency_from' => $from,
       'currency_to' => $to
     ]);
   }
 
-  public function urlSpotPrices() {
-    return $this->baseUrl().'api/v1/spot-prices/';
-  }
-
               //////////////////////////////////////////////// Users //
 
   public function userCreate($acceptance, $email, $pass) {
-    return $this->resource('post', $this->urlUserCreate(), [
+    return $this->resource('post', 'api/v1/users/', [
       'accepts_terms_of_service' => $acceptance,
       'user' => [
         'email' => $email,
@@ -102,24 +94,46 @@ class Core extends AbstractProvider {
     ]);
   }
 
-  public function urlUserCreate() {
-    return $this->baseUrl().'api/v1/users/';
-  }
-
   public function getUserData() {
-    return $this->resource('get', $this->urlUserData());
+    return $this->resource('get', 'api/v1/users/me');
   }
 
-  public function urlUserData() {
-    return $this->baseUrl().'api/v1/users/me/';
+              //////////////////////////////////////////////// Slips //
+
+  public function slipCreate($currency, $amount, $type) {
+    return $this->resource('post', 'api/v1/users/me/slips', [
+      'currency' => $currency,
+      'amount' => $amount,
+      'type' => $type
+    ]);
+  }
+
+  public function getSlipData($id) {
+    return $this->resource('get', 'api/v1/users/me/slips/'.$id);
+  }
+
+  public function slipDelete($id) {
+    return $this->resource('delete', 'api/v1/users/me/slips/'.$id);
+  }
+
+  public function reportLoad($id, $amount, $affiliation, $authorization) {
+    return $this->resource('post', 'api/v1/users/me/slips/'.$id.'/report/', [
+      'amount' => $amount,
+      'affiliation_number' => $affiliation,
+      'authorization_number' => $authorization
+    ]);
+  }
+
+  public function getLoadMethods(){
+    return $this->resource('get', 'api/v1/users/me/slips/methods');
   }
 
   // Helpers //////////////////////////////////////////////////////////
 
-  private function resource($verb, $url, $params = []) {
+  private function resource($verb, $endpoint, $params = []) {
     if ($this->hasTokenExpired()) { $this->refreshTokens(); }
     $this->headers['Authorization'] = 'Bearer '.$this->tokens->accessToken;
-    $url .= '?'.$this->httpBuildQuery($params);
+    $url = $this->baseUrl().$endpoint.'?'.$this->httpBuildQuery($params);
 
     try {
         $client = $this->getHttpClient();

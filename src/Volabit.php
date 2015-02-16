@@ -73,7 +73,7 @@ class Client {
   }
 
   /**
-   * Gets the exchange price from certain currency amount to another currency.
+   * Gets the exchange price from certain currency amount to other currency.
    */
   public function spotPrices($amount, $from, $to) {
     return $this->manager->getSpotPrices($amount, $from, $to);
@@ -98,6 +98,42 @@ class Client {
   }
 
   // API Slips ////////////////////////////////////////////////////////
+
+  /**
+   * # Creates a slip that can be used to load the user wallet.
+   */
+  public function createSlip($currency, $amount, $type) {
+    return $this->manager->slipCreate($currency, $amount, $type);
+  }
+
+  /**
+   * Gets the information of a specific slip.
+   */
+  public function slipData($id) {
+    return $this->manager->getSlipData($id);
+  }
+
+  /**
+   * Deletes a specific slip.
+   */
+  public function deleteSlip($id) {
+    return $this->manager->slipDelete($id);
+  }
+
+  /**
+   * Informs of a receipt used to load a wallet's slip.
+   */
+  public function reportReceipt($id, $amount, $affiliation, $authorization) {
+    return $this->manager->reportLoad($id, $amount, $affiliation, $authorization);
+  }
+
+  /**
+   * Lists the available options to load a slip.
+   */
+  public function loadMethods() {
+    return $this->manager->getLoadMethods();
+  }
+
   // API Transactions /////////////////////////////////////////////////
 
   private function auth_params($id, $secret, $url, $env) {
