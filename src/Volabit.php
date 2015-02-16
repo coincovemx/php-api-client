@@ -63,7 +63,7 @@ class Client {
     ];
   }
 
-  // API Rates ////////////////////////////////////////////////////////
+  // API Exchange Rates ///////////////////////////////////////////////
 
   /**
    * Gets the exchange price list for the supported currencies.
@@ -80,6 +80,23 @@ class Client {
   }
 
   // API Users ////////////////////////////////////////////////////////
+
+  /**
+   * Request the creation of a new user with the given params.
+   *
+   * @note This method requires partner privileges.
+   */
+  public function createUser($acceptance, $email, $pass = '') {
+    return $this->manager->userCreate($acceptance, $email, $pass);
+  }
+
+  /**
+   * Gets the information details of the app user.
+   */
+  public function userData() {
+    return $this->manager->getUserData();
+  }
+
   // API Slips ////////////////////////////////////////////////////////
   // API Transactions /////////////////////////////////////////////////
 

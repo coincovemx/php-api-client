@@ -71,7 +71,7 @@ class Core extends AbstractProvider {
               /////////////////////////////////////// Exchange rates //
 
   public function getTickers() {
-    return $this->apiRequest('get', $this->urlTickers());
+    return $this->resource('get', $this->urlTickers());
   }
 
   public function urlTickers() {
@@ -79,7 +79,7 @@ class Core extends AbstractProvider {
   }
 
   public function getSpotPrices($amount, $from, $to) {
-    return $this->apiRequest('get', $this->urlSpotPrices(), [
+    return $this->resource('get', $this->urlSpotPrices(), [
       'amount' => $amount,
       'currency_from' => $from,
       'currency_to' => $to
@@ -92,15 +92,33 @@ class Core extends AbstractProvider {
 
               //////////////////////////////////////////////// Users //
 
-  public function urlUserDetails(AccessToken $token) {}
+  public function userCreate($acceptance, $email, $pass) {
+    return $this->resource('post', $this->urlUserCreate(), [
+      'accepts_terms_of_service' => $acceptance,
+      'user' => [
+        'email' => $email,
+        'password' => $pass
+      ]
+    ]);
+  }
 
-  public function userDetails($response, AccessToken $token) {}
+  public function urlUserCreate() {
+    return $this->baseUrl().'api/v1/users/';
+  }
+
+  public function getUserData() {
+    return $this->resource('get', $this->urlUserData());
+  }
+
+  public function urlUserData() {
+    return $this->baseUrl().'api/v1/users/me/';
+  }
 
   // Helpers //////////////////////////////////////////////////////////
 
-  private function apiRequest($verb, $url, $params = []) {
+  private function resource($verb, $url, $params = []) {
     if ($this->hasTokenExpired()) { $this->refreshTokens(); }
-    $params['token'] = $this->tokens->accessToken;
+    $this->headers['Authorization'] = 'Bearer '.$this->tokens->accessToken;
     $url .= '?'.$this->httpBuildQuery($params);
 
     try {
@@ -134,4 +152,8 @@ class Core extends AbstractProvider {
   public function __toString() {
     return print_r($this, true);
   }
+
+  // Unused methods, required by AbstractProvider.
+  public function userDetails($response, AccessToken $token) {}
+  public function urlUserDetails(AccessToken $token) {}
 }
