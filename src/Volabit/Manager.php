@@ -36,6 +36,7 @@ class Core extends AbstractProvider {
     $newTokens = $this->getAccessToken('refresh_token', [
       'refresh_token' => $refreshToken, 'grant_type' => 'refresh_token'
     ]);
+
     $this->setTokens($newTokens);
   }
 
@@ -65,34 +66,24 @@ class Core extends AbstractProvider {
     return $this->baseUrl().'/oauth/token';
   }
 
-  // API URLs /////////////////////////////////////////////////////////
+  // API Calls and URLs ///////////////////////////////////////////////
 
               /////////////////////////////////////// Exchange rates //
 
   public function getTickers() {
-    $params = ['token' => $this->tokens->accessToken];
-    $url = $this->urlTickers().'?'.$this->httpBuildQuery($params);
-    $response = $this->fetchProviderData($url);
-
-    return json_decode($response, true);
-  }
-
-  public function getSpotPrices($amount, $from, $to) {
-    $params = [
-      'token' => $this->tokens->accessToken,
-      'amount' => $amount,
-      'currency_from' => $from,
-      'currency_to' => $to
-    ];
-
-    $url = $this->urlSpotPrices().'?'.$this->httpBuildQuery($params);
-    $response = $this->fetchProviderData($url);
-
-    return json_decode($response, true);
+    return $this->apiRequest('get', $this->urlTickers());
   }
 
   public function urlTickers() {
     return $this->baseUrl().'api/v1/tickers/';
+  }
+
+  public function getSpotPrices($amount, $from, $to) {
+    return $this->apiRequest('get', $this->urlSpotPrices(), [
+      'amount' => $amount,
+      'currency_from' => $from,
+      'currency_to' => $to
+    ]);
   }
 
   public function urlSpotPrices() {
@@ -107,20 +98,29 @@ class Core extends AbstractProvider {
 
   // Helpers //////////////////////////////////////////////////////////
 
-  public function __toString() {
-    return print_r($this, true);
-  }
+  private function apiRequest($verb, $url, $params = []) {
+    if ($this->hasTokenExpired()) { $this->refreshTokens(); }
+    $params['token'] = $this->tokens->accessToken;
+    $url .= '?'.$this->httpBuildQuery($params);
 
-  private function parseStream($stream) {
-    $content = '';
+    try {
+        $client = $this->getHttpClient();
+        $client->setBaseUrl($url);
 
-    while (!$stream->feof()) {
-      $content .= $stream->readLine();
-      echo "hello!\n";
-      print_r($content);
+        if ($this->headers) {
+            $client->setDefaultOption('headers', $this->headers);
+        }
+
+        $request = call_user_func(array($client, $verb))->send();
+        $response = $request->getBody();
+    } catch (BadResponseException $e) {
+        // @codeCoverageIgnoreStart
+        $raw_response = explode("\n", $e->getResponse());
+        throw new IDPException(end($raw_response));
+        // @codeCoverageIgnoreEnd
     }
 
-    return json_decode($content, true);
+    return json_decode($response, true);
   }
 
   private function baseUrl() {
@@ -129,5 +129,9 @@ class Core extends AbstractProvider {
     } else {
       return $this::SANDBOX_SITE;
     }
+  }
+
+  public function __toString() {
+    return print_r($this, true);
   }
 }
