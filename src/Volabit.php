@@ -37,7 +37,7 @@ class Client {
   }
 
   /**
-   * Uses provided tokens to access the API.
+   * Uses given tokens to access the API.
    *
    * This method is intended to use tokens stored and loaded by the app to get
    * fresh tokens for the API calls.
@@ -96,6 +96,13 @@ class Client {
    */
   public function userData() {
     return $this->manager->getUserData();
+  }
+
+  /**
+   * Alias for `userData`.
+   */
+  public function me() {
+    return $this->userData();
   }
 
   // API Slips ////////////////////////////////////////////////////////
@@ -180,6 +187,22 @@ class Client {
       'redirectUri' => $url,
       'env' => $env
     ];
+  }
+
+  /**
+   * Toggles the test environment with a boolean value.
+   * @note Set it before requiring the user authorization or your app
+   * will need to be reauthorized.)
+   */
+  public function sandbox($flag) {
+    switch($flag) {
+      case true:
+        $this->manager->env = 'sandbox';
+        break;
+      case false:
+        $this->manager->env = 'production';
+        break;
+    }
   }
 
   public function __toString() {

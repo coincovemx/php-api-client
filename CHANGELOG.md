@@ -2,13 +2,23 @@
 # Change Log
 
 ## To Do
-- Wrap the remaining API end-points with client methods.
+- Set-up test framework.
 - Add specs.
-- Add docs.
-- Automatics test suite run. (Codeship/Travis)
+- Add better docs.
+- Follow coding standards.
+- Hook Travis/Codeship.
 
 ## [Unreleased](unreleased)
 ### Added
-- Integrate an OAuth2 library.
-- Wrappers for exchange rates end-points.
+- 
+
+## [1.0.0](1.0.0)
+### Added
 - Flexible manager for Oauth2 and API calls.
+- Wrappers for exchange rates.
+- Wrappers for user management.
+- Wrappers for slip management.
+- Wrappers for transactions.
+
+
+[1.0.0]: https://github.com/coincovemx/ruby-api-client/tree/v1.0.0

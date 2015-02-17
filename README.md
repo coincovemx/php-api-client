@@ -32,13 +32,13 @@ $volabit_client->sandbox(true);
 2) Get the URL that will allow the user to authorize your app to use his/her account. (It should be opened in a browser.)
 
 ```php
-$auth_url = $volabit_client->authorize()
+$auth_url = $volabit_client->authorize();
 ```
 
 3) After you get the authorization code (sent at the callback URL that you provided), you'll use it to get the refresh and access tokens. This code can be used only once, so be sure to store the token object for later use or your app will have to be reauthorized.
 
 ```php
-$volabit_client->get_token('The given authorization code.');
+$volabit_client->getToken('The given authorization code.');
 ```
 
 4) With these tokens, you'll be ready to call the services. The methods will return a response array.
@@ -57,16 +57,17 @@ print_r($response);
 // )
 ```
 
-You can see the available methods on the [corresponding modules][modules]. Details of the API use can be found on the [official page][api-docs].
+You can see the available methods source on the [corresponding section][source] of the client. Details of the API use can be found on the [official page][api-docs].
 
 ## Contributing
 
-1. Fork it ( https://github.com/[my-github-username]/volabit-php-client/fork )
+1. Fork it ( https://github.com/[my-github-username]/php-client/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create a new Pull Request
 
 
-[wiki]: https://github.com/coincovemx/volabit-php-client/wiki
+[source]: https://github.com/coincovemx/php-client/blob/master/src/Volabit.php
+[wiki]: https://github.com/coincovemx/php-client/wiki
 [api-docs]: https://coincovemx.github.io/
