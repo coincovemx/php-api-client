@@ -41,6 +41,18 @@ $auth_url = $volabit_client->authorize();
 $volabit_client->getToken('The given authorization code.');
 ```
 
+Or, you can load previously obtained tokens from an array:
+
+```php
+$tokens = [
+  'access_token' => 'an access token',
+  'refresh_token' => 'a refresh token',
+  'expires_in' => 'expiration time (unix time format)'
+];
+
+$volabit_client.useTokens($tokens);
+```
+
 4) With these tokens, you'll be ready to call the services. The methods will return a response array.
 
 ```php
@@ -56,6 +68,8 @@ print_r($response);
 //    [btc_mxn_sell] => 3592.64
 // )
 ```
+
+**Note**: If you get `unauthorized` error responses from the API, try to reauthorize your application and get new tokens.
 
 You can see the available methods source on the [corresponding section][source] of the client. Details of the API use can be found on the [official page][api-docs].
 
