@@ -74,6 +74,8 @@ class Client {
 
   /**
    * Gets the exchange price from certain currency amount to other currency.
+   * @note BTC units are expected in satoshis. Other currencies units are
+   *       expected in cents.
    */
   public function spotPrices($amount, $from, $to) {
     return $this->manager->getSpotPrices($amount, $from, $to);
@@ -83,8 +85,7 @@ class Client {
 
   /**
    * Request the creation of a new user with the given params.
-   *
-   * @note This method requires partner privileges.
+   * @note This action requires partner privileges.
    */
   public function createUser($acceptance, $email, $pass = '') {
     return $this->manager->userCreate($acceptance, $email, $pass);
@@ -135,6 +136,42 @@ class Client {
   }
 
   // API Transactions /////////////////////////////////////////////////
+
+  /**
+   * Instantly buy bitcoins using fiat balance from the wallet.
+   * @note The amount is expected in fiat cents.
+   */
+  public function buyBitcoins($amount) {
+    return $this->manager->bitcoinBuy($amount);
+  }
+
+  /**
+   * Instantly sell bitcoins to get fiat balance to the wallet.
+   * @note The amount is expected in satoshis.
+   */
+  public function sellBitcoins($amount) {
+    return $this->manager->bitcoinSell($amount);
+  }
+
+  /**
+   * Instantly send fiat or bitcoins to an address.
+   * @note The amount is expected in satoshis for bitcoins and cents for
+   *       fiat currencies.
+   */
+  public function sendMoney($currency, $amount, $address) {
+    return $this->manager->send($currency, $amount, $address);
+  }
+
+  /**
+   * Requests a special address to receive a bitcoin payment that will be
+   * instantly converted to the designated currency.
+   * @note This action requires merchant privileges.
+   */
+  public function newPayment($currency, $amount) {
+    return $this->manager->newGreenAddress($currency, $amount);
+  }
+
+  // Helpers //////////////////////////////////////////////////////////
 
   private function auth_params($id, $secret, $url, $env) {
     return [

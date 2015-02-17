@@ -101,7 +101,7 @@ class Core extends AbstractProvider {
               //////////////////////////////////////////////// Slips //
 
   public function slipCreate($currency, $amount, $type) {
-    return $this->resource('post', 'api/v1/users/me/slips', [
+    return $this->resource('post', 'api/v1/users/me/slips/', [
       'currency' => $currency,
       'amount' => $amount,
       'type' => $type
@@ -128,6 +128,35 @@ class Core extends AbstractProvider {
     return $this->resource('get', 'api/v1/users/me/slips/methods');
   }
 
+      //////////////////////////////////////////////// Transactions //
+
+  public function bitcoinBuy($amount) {
+    return $this->resource('post', 'api/v1/users/me/buys/', [
+      'amount' => $amount
+    ]);
+  }
+
+  public function bitcoinSell($amount) {
+    return $this->resource('post', 'api/v1/users/me/sells/', [
+      'amount' => $amount
+    ]);
+  }
+
+  public function send($currency, $amount, $address) {
+    return $this->resource('post', 'api/v1/users/me/send/', [
+      'amount' => $amount,
+      'address' => $address,
+      'currency' => $currency
+    ]);
+  }
+
+  public function newGreenAddress($currency, $amount) {
+    return $this->resource('post', 'api/v1/users/me/green-addresses/', [
+      'amount' => $amount,
+      'currency' => $currency
+    ]);
+  }
+
   // Helpers //////////////////////////////////////////////////////////
 
   private function resource($verb, $endpoint, $params = []) {
@@ -136,20 +165,18 @@ class Core extends AbstractProvider {
     $url = $this->baseUrl().$endpoint.'?'.$this->httpBuildQuery($params);
 
     try {
-        $client = $this->getHttpClient();
-        $client->setBaseUrl($url);
+      $client = $this->getHttpClient();
+      $client->setBaseUrl($url);
 
-        if ($this->headers) {
-            $client->setDefaultOption('headers', $this->headers);
-        }
+      if ($this->headers) {
+        $client->setDefaultOption('headers', $this->headers);
+      }
 
-        $request = call_user_func(array($client, $verb))->send();
-        $response = $request->getBody();
+      $request = call_user_func(array($client, $verb))->send();
+      $response = $request->getBody();
     } catch (BadResponseException $e) {
-        // @codeCoverageIgnoreStart
-        $raw_response = explode("\n", $e->getResponse());
-        throw new IDPException(end($raw_response));
-        // @codeCoverageIgnoreEnd
+      $raw_response = explode("\n", $e->getResponse());
+      throw new IDPException(end($raw_response));
     }
 
     return json_decode($response, true);
