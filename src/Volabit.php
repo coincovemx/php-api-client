@@ -37,7 +37,7 @@ class Client {
   }
 
   /**
-   * Uses provided tokens to access the API.
+   * Uses given tokens to access the API.
    *
    * This method is intended to use tokens stored and loaded by the app to get
    * fresh tokens for the API calls.
@@ -96,6 +96,13 @@ class Client {
    */
   public function userData() {
     return $this->manager->getUserData();
+  }
+
+  /**
+   * Alias for `userData`.
+   */
+  public function me() {
+    return $this->userData();
   }
 
   // API Slips ////////////////////////////////////////////////////////
