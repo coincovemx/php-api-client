@@ -5,7 +5,7 @@ use League\OAuth2\Client\Token\AccessToken as AccessToken;
 
 class Core extends AbstractProvider {
   // URL for the Volabit production site.
-  const PRODUCTION_SITE = 'https://stageex.volabit.com/';
+  const PRODUCTION_SITE = 'https://www.volabit.com/';
   // URL for the Volabit test site.
   const SANDBOX_SITE    = 'https://sandbox.volabit.com/';
 

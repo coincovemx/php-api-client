@@ -32,7 +32,7 @@ $volabit_client->sandbox(true);
 2) Get the URL that will allow the user to authorize your app to use his/her account. (It should be opened in a browser.)
 
 ```php
-$auth_url = $volabit_client->authorize()
+$auth_url = $volabit_client->authorize();
 ```
 
 3) After you get the authorization code (sent at the callback URL that you provided), you'll use it to get the refresh and access tokens. This code can be used only once, so be sure to store the token object for later use or your app will have to be reauthorized.

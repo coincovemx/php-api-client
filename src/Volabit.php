@@ -189,6 +189,22 @@ class Client {
     ];
   }
 
+  /**
+   * Toggles the test environment with a boolean value.
+   * @note Set it before requiring the user authorization or your app
+   * will need to be reauthorized.)
+   */
+  public function sandbox($flag) {
+    switch($flag) {
+      case true:
+        $this->manager->env = 'sandbox';
+        break;
+      case false:
+        $this->manager->env = 'production';
+        break;
+    }
+  }
+
   public function __toString() {
     return print_r($this, true);
   }
