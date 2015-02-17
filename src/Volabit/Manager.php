@@ -161,22 +161,25 @@ class Core extends AbstractProvider {
 
   private function resource($verb, $endpoint, $params = []) {
     if ($this->hasTokenExpired()) { $this->refreshTokens(); }
-    $this->headers['Authorization'] = 'Bearer '.$this->tokens->accessToken;
     $url = $this->baseUrl().$endpoint.'?'.$this->httpBuildQuery($params);
+    echo $url."\n";
 
     try {
       $client = $this->getHttpClient();
       $client->setBaseUrl($url);
+      $client->setDefaultOption('exceptions', false);
 
       if ($this->headers) {
-        $client->setDefaultOption('headers', $this->headers);
+        $client->setDefaultOption('headers', [
+          'Authorization' => 'Bearer '.$this->tokens->accessToken
+        ]);
       }
 
       $request = call_user_func(array($client, $verb))->send();
       $response = $request->getBody();
-    } catch (BadResponseException $e) {
-      $raw_response = explode("\n", $e->getResponse());
-      throw new IDPException(end($raw_response));
+    } catch (Exception $ex) {
+      $raw_response = explode("\n", $ex->getResponse());
+      return $raw_response;
     }
 
     return json_decode($response, true);
