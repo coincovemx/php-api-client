@@ -75,13 +75,13 @@ You can see the available methods source on the [corresponding section][source] 
 
 ## Contributing
 
-1. Fork it ( https://github.com/[my-github-username]/php-client/fork )
+1. Fork it ( https://github.com/[my-github-username]/php-api-client/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create a new Pull Request
 
 
-[source]: https://github.com/coincovemx/php-client/blob/master/src/Volabit.php
-[wiki]: https://github.com/coincovemx/php-client/wiki
+[source]: https://github.com/coincovemx/php-api-client/blob/master/src/Volabit.php
+[wiki]: https://github.com/coincovemx/php-api-client/wiki
 [api-docs]: https://coincovemx.github.io/
