@@ -3,9 +3,11 @@
 use League\OAuth2\Client\Provider\AbstractProvider;
 use League\OAuth2\Client\Token\AccessToken as AccessToken;
 
+class ArgumentError extends \Exception {}
+
 class Core extends AbstractProvider {
   // URL for the Volabit production site.
-  const PRODUCTION_SITE = 'https://www.volabit.com/';
+  const PRODUCTION_SITE = 'https://stageex.volabit.com/';
   // URL for the Volabit test site.
   const SANDBOX_SITE    = 'https://sandbox.volabit.com/';
 
@@ -109,14 +111,17 @@ class Core extends AbstractProvider {
   }
 
   public function getSlipData($id) {
+    if ($id == '') { $this->emptyArgumentError('id'); }
     return $this->resource('get', 'api/v1/users/me/slips/'.$id);
   }
 
   public function slipDelete($id) {
+    if ($id == '') { $this->emptyArgumentError('id'); }
     return $this->resource('delete', 'api/v1/users/me/slips/'.$id);
   }
 
   public function reportLoad($id, $amount, $affiliation, $authorization) {
+    if ($id == '') { $this->emptyArgumentError('id'); }
     return $this->resource('post', 'api/v1/users/me/slips/'.$id.'/report/', [
       'amount' => $amount,
       'affiliation_number' => $affiliation,
@@ -162,7 +167,6 @@ class Core extends AbstractProvider {
   private function resource($verb, $endpoint, $params = []) {
     if ($this->hasTokenExpired()) { $this->refreshTokens(); }
     $url = $this->baseUrl().$endpoint.'?'.$this->httpBuildQuery($params);
-    echo $url."\n";
 
     try {
       $client = $this->getHttpClient();
@@ -191,6 +195,10 @@ class Core extends AbstractProvider {
     } else {
       return $this::SANDBOX_SITE;
     }
+  }
+
+  private function emptyArgumentError($arg) {
+    throw new ArgumentError($arg.' must not be empty.');
   }
 
   public function __toString() {
