@@ -5,12 +5,12 @@
 - Set-up test framework.
 - Add specs.
 - Add better docs.
-- Follow coding standards.
+- Review coding standards.
 - Hook Travis/Codeship.
 
 ## [Unreleased](unreleased)
-### Added
-- 
+### Fixed
+- Project name-space and source structure to be used trough Composer.
 
 ## [1.0.0](1.0.0)
 ### Added
