@@ -1,17 +1,17 @@
-<?php namespace Volabit;
+<?php
 
-require_once(dirname(__FILE__).'/Volabit/Manager.php');
+namespace Volabit\Client;
 
-use Manager\Core;
+use Volabit\Client\Core;
 
-class Client {
+class OAuth2Client {
 
   protected $manager;
 
   public function __construct($id, $secret, $url, $env = 'production') {
     $this->url = $url;
     $config = $this->auth_params($id, $secret, $url, $env);
-    $this->manager = new Manager\Core($config);
+    $this->manager = new Core($config);
   }
 
   // OAuth2 ///////////////////////////////////////////////////////////
