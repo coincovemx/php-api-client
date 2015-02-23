@@ -1,10 +1,10 @@
-<?php namespace Volabit;
+<?php
 
-require_once(dirname(__FILE__).'/Core.php');
+namespace Volabit\Client;
 
-use Volabit\Core;
+use Volabit\Client\Core;
 
-class Client {
+class OAuth2Client {
 
   protected $manager;
 
