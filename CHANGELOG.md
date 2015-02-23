@@ -9,8 +9,6 @@ You can see the supported releases on the [project GitHub repository](http://htt
 - Review coding standards.
 - Hook Travis/Codeship.
 
-## Unreleased
-
 ## 1.0.1
 ### Added
 - Flexible manager for Oauth2 and API calls.
