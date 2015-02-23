@@ -1,18 +1,15 @@
 
 # Change Log
+You can see the supported releases on the [project GitHub repository](http://https://github.com/coincovemx/php-api-client/releases).
 
 ## To Do
 - Set-up test framework.
 - Add specs.
 - Add better docs.
-- Follow coding standards.
+- Review coding standards.
 - Hook Travis/Codeship.
 
-## [Unreleased](unreleased)
-### Added
-- 
-
-## [1.0.0](1.0.0)
+## 1.0.1
 ### Added
 - Flexible manager for Oauth2 and API calls.
 - Wrappers for exchange rates.
@@ -20,5 +17,5 @@
 - Wrappers for slip management.
 - Wrappers for transactions.
 
-
-[1.0.0]: https://github.com/coincovemx/ruby-api-client/tree/v1.0.0
+### Fixed
+- Project name-space and source structure to be used trough Composer.
