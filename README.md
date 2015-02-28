@@ -1,3 +1,4 @@
+[![Dependency Status](https://www.versioneye.com/user/projects/54f234a4632b05a90e000004/badge.svg?style=flat)](https://www.versioneye.com/user/projects/54f234a4632b05a90e000004)
 
 # Volabit PHP Client
 
