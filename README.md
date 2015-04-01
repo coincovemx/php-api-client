@@ -1,4 +1,3 @@
-
 # Volabit PHP Client
 
 Volabit's API library for PHP. Integrate the Volabit services in your apps with ease.
