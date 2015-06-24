@@ -45,7 +45,7 @@ $auth_url = $volabitClient->authorize();
 3) After you get the authorization code (sent at the callback URL that you provided), you'll use it to get the refresh and access tokens. This code can be used only once, so be sure to store the token object for later use or your app will have to be reauthorized.
 
 ```php
-$volabitClient->getToken('The given authorization code.');
+$volabitClient->getTokens('The given authorization code.');
 ```
 
 Or, you can load previously obtained tokens from an array:
