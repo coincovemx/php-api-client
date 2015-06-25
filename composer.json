@@ -1,5 +1,5 @@
 {
-    "name": "travisdoherty/client",
+    "name": "volabit/client",
     "type": "library",
     "description": "Library for the Volabit API.",
     "keywords": [
