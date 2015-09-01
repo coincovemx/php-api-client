@@ -72,6 +72,12 @@ class Core extends AbstractProvider {
 
   // API Calls and URLs ///////////////////////////////////////////////
 
+  // simply checks oauth token info
+  public function getTokenInfo() {
+    return $this->resource('get','/oauth/token/info');
+  }
+
+
               /////////////////////////////////////// Exchange rates //
 
   public function getTickers() {
@@ -102,6 +108,9 @@ class Core extends AbstractProvider {
     return $this->resource('get', 'api/v1/users/me');
   }
 
+  public function getUserDataById($id) {
+    return $this->resource('get', 'api/v1/users/' . $id . '/me');
+  }
               //////////////////////////////////////////////// Slips //
 
   public function slipCreate($currency, $amount, $type) {
@@ -133,6 +142,28 @@ class Core extends AbstractProvider {
 
   public function getLoadMethods(){
     return $this->resource('get', 'api/v1/users/me/slips/methods');
+  }
+
+  public function getRequestMethods() {
+    return $this->resource('get', 'api/v1/users/requests/methods');
+  }
+
+  public function deleteSlipById($id,$email,$phone) {
+    return $this->resource('delete', 'api/v1/users/slips/' . $id, [
+        'email' => $email,
+        'phone' => $phone
+      ]);
+  }
+
+  public function createSlipById($email,$phone,$currency,$amount,$type) {
+    return $this->resource('post', 'api/v1/users/slips/', [
+        'email' => $email,
+        'phone' => $phone,
+        'currency' => $currency,
+        'amount' => $amount,
+        'type' => $type,
+
+      ]);
   }
 
       //////////////////////////////////////////////// Transactions //
@@ -194,8 +225,10 @@ class Core extends AbstractProvider {
   private function baseUrl() {
     if ($this->env == 'production') {
       return $this::PRODUCTION_SITE;
-    } else {
+    } elseif ($this->env == 'sandbox') {
       return $this::SANDBOX_SITE;
+    } else {
+      return 'https://' . $this->env . '.volabit.com/';
     }
   }
 

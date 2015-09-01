@@ -73,6 +73,13 @@ class OAuth2Client {
   }
 
   /**
+   * Gets token info from OAuth2
+   */
+  public function tokenInfo() {
+    return $this->manager->getTokenInfo();
+  }
+
+  /**
    * Gets the exchange price from certain currency amount to other currency.
    * @note BTC units are expected in satoshis. Other currencies units are
    *       expected in cents.
@@ -97,6 +104,16 @@ class OAuth2Client {
   public function userData() {
     return $this->manager->getUserData();
   }
+
+  /**
+   * Gets the information details of a user by ID
+   * ID is either: email, or, phone number
+   */
+  public function userDataById($id) {
+    return $this->manager->getUserDataById($id);
+  }
+
+
 
   /**
    * Alias for `userData`.
@@ -141,6 +158,29 @@ class OAuth2Client {
   public function loadMethods() {
     return $this->manager->getLoadMethods();
   }
+
+  /**
+   * Lists the available request methods
+   */
+  public function requestMethods() {
+    return $this->manager->getRequestMethods();
+  }
+
+
+  /**
+   * Delete a slip by ID, Email, Phone
+   */
+  public function deleteSlipById($id,$email,$phone) {
+    return $this->manager->deleteSlipById($id,$email,$phone);
+  }
+
+  /**
+   * Create a slip, keeps order of currency,amount,type to comply with createSlip() 
+   */
+  public function createSlipById($email,$phone,$currency,$amount,$type) {
+    return $this->manager->createSlipById($email,$phone,$currency,$amount,$type);
+  }
+
 
   // API Transactions /////////////////////////////////////////////////
 
@@ -193,6 +233,8 @@ class OAuth2Client {
    * Toggles the test environment with a boolean value.
    * @note Set it before requiring the user authorization or your app
    * will need to be reauthorized.)
+   *
+   * @deprecating: use setEnvironment('sandbox') in the future.
    */
   public function sandbox($flag) {
     switch($flag) {
@@ -203,6 +245,20 @@ class OAuth2Client {
         $this->manager->env = 'production';
         break;
     }
+  }
+
+  /**
+   * Set the environment.
+   * 
+   * Possible options:
+   * sandbox -> https://sandbox.volabit.com/
+   * production -> https://www.volabit.com/
+   * 
+   * Or another other string will become:
+   * https://{environment}.volabit.com/
+   */
+  public function setEnvironment($env) {
+    $this->manager->env = $env;
   }
 
   public function __toString() {
