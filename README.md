@@ -93,3 +93,7 @@ You can see the available methods source on the [corresponding section][source] 
 [wiki]: https://github.com/coincovemx/php-api-client/wiki
 [api-docs]: https://coincovemx.github.io/
 [composer]: https://getcomposer.org/
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/coincovemx/php-api-client/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
